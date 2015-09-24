@@ -1,5 +1,5 @@
-require "./ddp/*"
+require "./ddp/**"
 
-module Ddp
+module DDP
   # TODO Put your code here
 end

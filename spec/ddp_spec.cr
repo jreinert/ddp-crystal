@@ -1,4 +1,4 @@
 require "./spec_helper"
 
-describe Ddp do
+describe DDP do
 end

@@ -12,7 +12,7 @@ module DDP
       end
 
       it "returns a correct json representation for set options" do
-        msg = Connect.new(session_key: "foo", version: "2", support: ["2", "1"])
+        msg = Connect.new(session: "foo", version: "2", support: ["2", "1"])
         JSON.parse(msg.to_json).should eq({
           "msg" => "connect",
           "session" => "foo",

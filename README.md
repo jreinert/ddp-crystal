@@ -10,7 +10,7 @@ Add this to your application's `shard.yml`:
 ```yaml
 dependencies:
   ddp:
-    github: [your-github-name]/ddp
+    github: jreinert/ddp-crystal
 ```
 
 
@@ -38,4 +38,4 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [your-github-name](https://github.com/[your-github-name]) Joakim Reinert - creator, maintainer
+- [jreinert](https://github.com/jreinert) Joakim Reinert - creator, maintainer

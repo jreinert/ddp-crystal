@@ -1,4 +1,4 @@
-# ddp
+# ddp [![Build Status](https://travis-ci.org/jreinert/ddp-crystal.svg)](https://travis-ci.org/jreinert/ddp-crystal)
 
 TODO: Write a description here
 

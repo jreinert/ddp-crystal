@@ -1,0 +1,22 @@
+image: manastech/crystal
+before_script:
+  - curl https://install.meteor.com/ | sh
+  - apt-get install net-tools
+
+stages:
+  - build
+  - spec
+
+build_specs: 
+  stage: build
+  script:
+    - crystal build spec/all_specs.cr
+  tags:
+    - crystal
+
+run_specs:
+  stage: spec
+  script:
+    - cd meteor-dummy && meteor 2>&1 > /dev/null &
+    - until netstat -tlen | grep :3000 ; do sleep 1 ; done
+    - ./all_specs

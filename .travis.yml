@@ -1,1 +1,7 @@
 language: crystal
+before_install:
+  - sudo apt-get install net-tools
+  - "curl -L http://git.io/ejPSng | /bin/sh"
+before_script:
+  - "cd meteor-dummy && meteor 2>&1 > /dev/null &"
+  - "until netstat -tln | grep -i :3000 ; do sleep 1 ; done"

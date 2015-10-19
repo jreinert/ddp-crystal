@@ -22,12 +22,16 @@ class WebSocketMock
     @requests = [] of Request
   end
 
-  def send_masked(message : String)
-    @requests << Request.new(message, true, Opcode::TEXT)
+  def send(message : String, masked = false)
+    send(message.to_slice, Opcode::TEXT, masked)
   end
 
-  def send(message : String)
-    @requests << Request.new(message, false, Opcode::TEXT)
+  def send(message : Slice(UInt8), masked = false)
+    send(message, Opcode::BINARY, masked)
+  end
+
+  def send(message : Slice(UInt8), opcode : Opcode, masked = false)
+    @requests << Request.new(String.new(message), masked, opcode)
   end
 
   def receive(buffer : Slice(UInt8))
@@ -142,16 +146,16 @@ module DDP
         )
       end
 
-      #it "handles raw ping messages correctly" do
-        #ws = raw_pinging_websocket
-        #connection = Connection.new(ws)
-        #connection.receive
-        #pongs = ws.requests[1..2]
-        #pongs[0].payload.empty?.should be_true
-        #pongs[0].opcode.should eq(WebSocketMock::Opcode::PONG)
-        #pongs[1].payload.should eq("test")
-        #pongs[1].opcode.should eq(WebSocketMock::Opcode::PONG)
-      #end
+      it "handles raw ping messages correctly" do
+        ws = raw_pinging_websocket
+        connection = Connection.new(ws)
+        connection.receive
+        pongs = ws.requests[1..2]
+        pongs[0].payload.empty?.should be_true
+        pongs[0].opcode.should eq(WebSocketMock::Opcode::PONG)
+        pongs[1].payload.should eq("test")
+        pongs[1].opcode.should eq(WebSocketMock::Opcode::PONG)
+      end
     end
 
     describe "call" do

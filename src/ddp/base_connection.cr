@@ -112,11 +112,11 @@ abstract class DDP::BaseConnection
       info = receive_frame(io)
       case info.opcode
       when Opcode::TEXT then break
-      #when Opcode::PING
-        #@web_socket.send(io.to_slice, Opcode::PONG, masked: true)
-      #when Opcode::CLOSE
-        #@web_socket.send(io.to_slice, Opcode::CLOSE, masked: true)
-        #raise ReceiveError.new("connection closed")
+      when Opcode::PING
+        @web_socket.send(io.to_slice, Opcode::PONG, masked: true)
+      when Opcode::CLOSE
+        @web_socket.send(io.to_slice, Opcode::CLOSE, masked: true)
+        raise ReceiveError.new("connection closed")
       end
 
       io.clear
@@ -138,11 +138,11 @@ abstract class DDP::BaseConnection
   end
 
   private def send(message, fields)
-    @web_socket.send_masked(fields.merge({msg: message}).to_json)
+    @web_socket.send(fields.merge({msg: message}).to_json, masked: true)
   end
 
   private def send(message)
-    @web_socket.send_masked({msg: message}.to_json)
+    @web_socket.send({msg: message}.to_json, masked: true)
   end
 
   private def handle(message)
